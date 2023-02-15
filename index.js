@@ -1,5 +1,5 @@
 (function (window, _) {
-  window.myLibraryName = I-Dont-Know || {
+  window.idk = window.idk || {
     numz: {},
     phyz: {
       getDistance(pointA, pointB) {
