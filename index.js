@@ -2,6 +2,19 @@
   window.idk = window.idk || {
     numz: {},
     phyz: {
+       /**
+       * 
+       * @param {object} pointA 
+       * @param {object} pointB 
+       * 
+       * @param {number} pointA.x
+       * @param {number} pointA.y
+       * 
+       * @param {number} pointB.x
+       * @param {number} pointB.y
+       * @returns {number}
+       */
+
       getDistance(pointA, pointB) {
         const
           distanceX = pointB.x - pointA.x,
