@@ -10,16 +10,16 @@
          * @param {number} pointB.x
          * @param {number} pointB.y
          */
-         getAngleDegrees(pointA, pointB){
-          const
-                distanceX = pointB.x - pointA.x,
-                distanceY = pointB.y - pointA.y,
-                radians = Math.atan2(distanceY, distanceX),
-                degrees = radians * 180 / Math.PI;
-          return degrees;
+      getAngleDegrees(pointA, pointB) {
+        const
+          distanceX = pointB.x - pointA.x,
+          distanceY = pointB.y - pointA.y,
+          radians = Math.atan2(distanceY, distanceX),
+          degrees = radians * 180 / Math.PI;
+        return degrees;
       },
 
-     /** @param {number} degrees */ 
+      /** @param {number} degrees */
       degreesToRadians(degrees) {
         return degrees * Math.PI / 180;
       },
@@ -31,18 +31,18 @@
 
     },
     phyz: {
-       /**
-       * 
-       * @param {object} pointA 
-       * @param {object} pointB 
-       * 
-       * @param {number} pointA.x
-       * @param {number} pointA.y
-       * 
-       * @param {number} pointB.x
-       * @param {number} pointB.y
-       * @returns {number}
-       */
+      /**
+      * 
+      * @param {object} pointA 
+      * @param {object} pointB 
+      * 
+      * @param {number} pointA.x
+      * @param {number} pointA.y
+      * 
+      * @param {number} pointB.x
+      * @param {number} pointB.y
+      * @returns {number}
+      */
 
       getDistance(pointA, pointB) {
         const
@@ -51,6 +51,48 @@
           distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
         return distance;
       },
+
+      /**
+      * Updates the diagonal velocity properties of a body,
+      * taking into account the body's current velocity 
+      * and applying any forces acting against the body
+      * as acceleration on both the x and y axis.
+      * 
+      * NOTE: This method DOES NOT update the position of 
+      * the body, it only updates its velocity.
+      * 
+      * @param {Object} body: The body must be an Object 
+      * with velocityX, velocityY and rotation properties. 
+      * @param {Number} forceOnX: The force acting against
+      * the body on the x axis.
+      * @param {Number} forceOnY: The force acting against
+      * the body on the y axis.
+      */
+      updateVelocity(body, forceOnX, forceOnY) {
+        const
+          angle = body.rotation * Math.PI / 180,
+          accelerationOnX = Math.cos(angle) * forceOnX,
+          accelerationOnY = Math.sin(angle) * forceOnY;
+        body.velocityX += accelerationOnX;
+        body.velocityY += accelerationOnY;
+      },
+
+      /**
+       * Updates the x and y properties of a body based on its
+       * velocityX and velocityY, and, updates the rotation of
+       * a body based on its rotationalVelocity.
+       *
+       * @param {Object} body: The body must be an Object 
+       * with x, y, rotation, velocityX, velocityY, and 
+       * rotationalVelocity properties.
+       */
+      updatePosition(body) {
+        body.x += body.velocityX;
+        body.y += body.velocityY;
+        body.rotation += body.rotationalVelocity;
+      },
+
+
       /**
        * Returns an Object with basic properties utilized in a 
        * 2D physics system. On top of simple physical properties,
@@ -73,7 +115,7 @@
        * force of impact of a collision.
        * @return {Object} The body.
        */
-      makeBody: function(type, {
+      makeBody: function (type, {
         velocityX = 0,
         velocityY = 0,
         rotationalVelocity = 0,
